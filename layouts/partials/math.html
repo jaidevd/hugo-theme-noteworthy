@@ -1,6 +1,26 @@
 {{ if or .Page.Params.math .Site.Params.math }}
 <!-- KaTeX -->
-<link rel="stylesheet" type="text/css" href="{{ "css/katex.min.css" | relURL }}" crossorigin="anonymous">
-<script type="text/javascript" src="{{ "js/katex.min.js" | relURL }}" crossorigin="anonymous"></script>
-<script type="text/javascript" src="{{ "js/auto-render.min.js" | relURL }}"onload="renderMathInElement(document.body);" crossorigin="anonymous"></script>
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$','$$'], ['\\[', '\\]']],
+      processEscapes: true,
+      processEnvironments: true
+    },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+    }
+  };
+
+  window.addEventListener('load', (event) => {
+      document.querySelectorAll("mjx-container").forEach(function(x){
+        x.parentElement.classList += 'has-jax'})
+    });
+
+</script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 {{ end }}
