@@ -295,6 +295,10 @@ nav {
     max-width: 100%;
 }
 
+.content-container p {
+    text-align: justify
+}
+
 .paginator {
     flex-shrink: 0;
     display: flex;
