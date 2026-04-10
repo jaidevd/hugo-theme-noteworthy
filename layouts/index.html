@@ -8,7 +8,27 @@
         <!-- Range over the pages and only include the ones that are a post type -->
         {{ $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
         {{ range (.Paginate $pages).Pages }}
-        <article>
+        <article class="post-item">
+            {{ $thumbnail := "" }}
+            {{ if .Params.thumbnail }}
+                {{ $img := .Resources.GetMatch .Params.thumbnail }}
+                {{ if $img }}
+                    {{ $thumbnail = $img.RelPermalink }}
+                {{ else }}
+                    {{ $thumbnail = .Params.thumbnail }}
+                {{ end }}
+            {{ else }}
+                {{ with .Resources.ByType "image" }}
+                    {{ $thumbnail = (index . 0).RelPermalink }}
+                {{ end }}
+            {{ end }}
+            {{ if $thumbnail }}
+            <div class="post-thumbnail">
+                <a href="{{ .Permalink }}">
+                    <img src="{{ $thumbnail }}" alt="{{ .Title }}">
+                </a>
+            </div>
+            {{ end }}
             <h2>
                 <a href="{{ .Permalink }}">
                     {{ .Title }}
@@ -29,8 +49,7 @@
                     <a class="tag" href="/tags/{{ . | urlize }}">#{{.}}</a>
                 {{ end }}
             {{ end }}
-            </div> 
-           
+            </div>
         </article>
         {{ end }}
     </div>
