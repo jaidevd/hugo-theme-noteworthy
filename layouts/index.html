@@ -35,7 +35,19 @@
                 </a>
             </h2>
             <div>
-                <p>{{ .Summary }}</p>
+                {{/* Render the teaser as HTML so blockquotes, line breaks, italics and
+                     bold survive as-is. Strip out things that don't belong in a teaser
+                     or that the thumbnail already represents: YouTube/iframe embeds,
+                     the opening image/figure, and horizontal rules — then drop any
+                     now-empty paragraph left behind. */}}
+                {{ $teaser := .Summary }}
+                {{ $teaser = $teaser | replaceRE `(?s)<div[^>]*padding-bottom[^>]*>.*?</div>` "" }}
+                {{ $teaser = $teaser | replaceRE `(?s)<iframe.*?</iframe>` "" }}
+                {{ $teaser = $teaser | replaceRE `(?s)<figure.*?</figure>` "" }}
+                {{ $teaser = $teaser | replaceRE `<img[^>]*>` "" }}
+                {{ $teaser = $teaser | replaceRE `<hr[^>]*>` "" }}
+                {{ $teaser = $teaser | replaceRE `(?s)<p>\s*</p>` "" }}
+                {{ $teaser | safeHTML }}
                 {{ if (and (.Site.Params.showReadMore) (.Truncated)) }}
                 <p><a href="{{ .RelPermalink }}">Read more...</a></p>
                 {{ end }}

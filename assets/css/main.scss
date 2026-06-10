@@ -327,13 +327,34 @@ nav {
 
 // POST ITEM WITH THUMBNAIL
 .post-item {
+    // Establish a block formatting context so the floated thumbnail
+    // is contained within the article and can't leak to the next one.
     overflow: hidden;
+
+    // The title and teaser are normal siblings, so their text wraps
+    // around the floated thumbnail and then flows full-width below it.
+
+    // A blockquote has a left border; next to a float its border box would
+    // otherwise be drawn at the far left, beside/behind the thumbnail, leaving
+    // the bar "orphaned". Giving it its own block formatting context makes it
+    // sit cleanly to the right of the image with the bar attached to its text.
+    blockquote {
+        overflow: hidden;
+    }
+
+    // Keep the date/tags row from wrapping up beside a short teaser:
+    // it always starts on a clean line below the thumbnail.
+    .post-footer {
+        clear: left;
+    }
 }
 
 .post-thumbnail {
     float: left;
-    margin: 1.25em 1.5em 0.75em 0;
     width: 150px;
+    // Top margin matches the title's (h2 margin-top is 1.25em) so the
+    // image top lines up with the title; right margin is the text gutter.
+    margin: 1.25em 1.5em 0.5em 0;
 
     img {
         width: 100%;
