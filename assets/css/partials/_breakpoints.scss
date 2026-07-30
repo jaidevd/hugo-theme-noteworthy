@@ -94,3 +94,22 @@
         width: 100%;
     }
 }
+
+@include media(1500px) {
+    // SIDENOTES
+    // Past this width there's enough room to the right of the content
+    // column for sidenotes, so swap them in for the footnote list.
+    .footnotes {
+        display: none;
+    }
+
+    .sidenote {
+        display: block;
+        float: right;
+        clear: right;
+        width: 280px;
+        margin-top: 0.2em;
+        margin-right: -340px;
+        margin-bottom: 1em;
+    }
+}

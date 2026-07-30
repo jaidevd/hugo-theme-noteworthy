@@ -185,6 +185,8 @@ ul,
 ol {
     margin: 1em 0em;
     padding-left: 2em;
+    font-family: $serif;
+    font-size: 20px;
 }
 
 li {
@@ -381,6 +383,27 @@ nav {
 .canon {
     width: 100%;
     height: auto;
+}
+
+// SIDENOTES
+// Populated by JS from the footnote list; hidden until a breakpoint in
+// _breakpoints.scss confirms there's room for them in the right margin.
+.sidenote {
+    display: none;
+    font-family: $serif;
+    font-size: 0.85rem;
+    line-height: 1.4em;
+    color: $gray-medium;
+
+    p {
+        margin: 0 0 0.5em 0;
+    }
+}
+
+.sidenote-number {
+    font-weight: 600;
+    color: $gray-dark;
+    margin-right: 0.3em;
 }
 
 .footnote-ref {
