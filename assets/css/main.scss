@@ -2,6 +2,8 @@
 // COLORS
 $teal: #63BDA2;
 $teal-darker: #359377;
+$maroon: #7B2D3B;
+$maroon-darker: #5A212A;
 $gray-background: #F7F7F7;
 $gray-table-border: #EEEEEE;
 $gray-lightest: #D2D2D2;
@@ -280,7 +282,17 @@ nav {
 }
 
 .nav-link {
+    color: $maroon;
+    font-family: $serif;
     margin-bottom: 0.5em;
+}
+
+.nav-link:visited {
+    color: $maroon;
+}
+
+.nav-link:hover {
+    color: $maroon-darker;
 }
 
 .description {
@@ -289,6 +301,12 @@ nav {
     text-align: center;
     margin-bottom: 3.7em;
     margin-top: -0.75em;
+}
+
+.random-spark {
+    font-size: 20px;
+    font-family: $serif;
+    margin-bottom: 1.5em;
 }
 
 // CONTENT
