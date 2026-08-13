@@ -17,7 +17,21 @@
     <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
     <meta property="og:description" content="{{ $description }}">
     <meta property="og:url" content="{{ .Permalink }}">
-    <meta property="og:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ "android-chrome-512x512.png" | absURL }}{{ end }}">
+    {{ $thumbnail := "" }}
+    {{ if .Params.thumbnail }}
+        {{ $img := .Resources.GetMatch .Params.thumbnail }}
+        {{ if $img }}
+            {{ $thumbnail = $img.Permalink }}
+        {{ else }}
+            {{ $thumbnail = .Params.thumbnail | absURL }}
+        {{ end }}
+    {{ else }}
+        {{ with .Resources.ByType "image" }}
+            {{ $thumbnail = (index . 0).Permalink }}
+        {{ end }}
+    {{ end }}
+    {{ if not $thumbnail }}{{ $thumbnail = "android-chrome-512x512.png" | absURL }}{{ end }}
+    <meta property="og:image" content="{{ $thumbnail }}">
 
     {{ if eq .Type "posts" }}
     <script type="application/ld+json">
