@@ -5,6 +5,36 @@
     <meta name="format-detection" content="telephone=no"/>
 
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    {{ $description := .Description }}
+    {{ if not $description }}{{ $description = .Summary | plainify | truncate 160 }}{{ end }}
+    {{ if not $description }}{{ $description = .Site.Params.description }}{{ end }}
+    <meta name="description" content="{{ $description }}">
+    <link rel="canonical" href="{{ .Permalink }}">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="{{ .Site.Title }}">
+    <meta property="og:type" content="{{ if eq .Type "posts" }}article{{ else }}website{{ end }}">
+    <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
+    <meta property="og:description" content="{{ $description }}">
+    <meta property="og:url" content="{{ .Permalink }}">
+    <meta property="og:image" content="{{ if .Params.image }}{{ .Params.image | absURL }}{{ else }}{{ "android-chrome-512x512.png" | absURL }}{{ end }}">
+
+    {{ if eq .Type "posts" }}
+    <script type="application/ld+json">
+    {{ (dict
+        "@context" "https://schema.org"
+        "@type" "BlogPosting"
+        "headline" .Title
+        "datePublished" (.Date.Format "2006-01-02T15:04:05Z07:00")
+        "dateModified" (.Lastmod.Format "2006-01-02T15:04:05Z07:00")
+        "description" $description
+        "author" (dict "@type" "Person" "name" "Jaidev Deshpande")
+        "publisher" (dict "@type" "Person" "name" "Jaidev Deshpande")
+        "mainEntityOfPage" .Permalink
+        "url" .Permalink
+    ) | jsonify (dict "indent" "  ") | safeJS }}
+    </script>
+    {{ end }}
     <!-- Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ "apple-touch-icon.png" | relURL }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ "favicon-32x32.png" | relURL }}">
